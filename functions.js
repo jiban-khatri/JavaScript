@@ -40,12 +40,14 @@ console.log(result)
 
 
 
+
 // Rest Parameters
 function calculate(x, y, ...rest){
     console.log(x, y, rest);
 }
 
 calculate(1,2,3,4,5,6,7,8,9);
+
 
 
 
@@ -81,9 +83,91 @@ console.log(innerFunction);
 function fool(func){
     console.log("fool");
 
-    func()
+    func();
 }
 
 fool(function() {
     console.log("buzz");
 })
+
+
+
+
+
+// Pure Functions
+// Pure function always return same output that are given them as input
+function greet(name) {
+    return "Hello"+ " " + name;
+}
+
+console.log(greet("Jiban"));
+console.log(greet("Hari"));
+console.log(greet("David"));
+
+
+
+
+
+// Impure Function
+let greetingMsg = "Hello";
+
+function greeting(name) {
+    return greetingMsg + " " + name;
+}
+console.log(greeting("Mike"));
+console.log(greeting("Mitchel"));
+
+
+greetingMsg = "Halo";
+
+console.log(greeting("David"));
+console.log(greeting("Jonathan"));
+
+
+
+
+
+
+// Higher order functions
+
+function getCamera(camera) {
+    
+    camera();
+}
+
+getCamera(function() {
+    console.log("DSLR Camera")
+});
+
+
+
+
+function returnFnc() {
+    return function() {
+        console.log("Returned Function");
+    }
+}
+
+const retFunc = returnFnc();
+retFunc();
+
+
+
+
+
+// Arrow Function
+
+const greetUser = () => {
+    console.log("Hello David")
+}
+greetUser();
+
+
+
+// IIFE => Immediately Invoked Function Expression
+(function(count) {
+    console.log("IIFE", count);
+})(1)
+
+
+
