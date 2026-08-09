@@ -75,5 +75,36 @@ Iterations = Looping : looping first time = 1st iteration ...........
 
 
 
+// While Loop
+
+// while (condition){
+//     // code
+// }
 
 
+/*
+let counter = 1;
+
+while (counter <= 5) {
+    console.log(counter);
+    counter += 1;
+}
+*/
+
+
+
+
+
+// do while loop
+
+// do {
+//     // code
+// } while (condition)
+
+
+let count = 1;
+
+do {
+    console.log(count);
+    count+=1;
+} while (count <= 5)
