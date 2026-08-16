@@ -5,7 +5,7 @@ console.log("UserName is ", userName);     // undefined
 var userName;   // No Error with var : hoisted
 userName = "David";
 
-console.log("UserName is", userName);
+console.log("UserName is", userName); // David
 
 
 
@@ -24,7 +24,7 @@ console.log("UserName is", userName);
     //
     let age = 20;   // age variable's TDZ ends here
     //
-    //
+    console.log(age) // 20 => No Error
 }
 
 

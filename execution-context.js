@@ -6,7 +6,7 @@
 /* == Global Execution Context (GEC) ==
         - At first the global execution context is created where there 2 phases happens
            ==== Creation Phase ====
-                - Window object
+                - Window object / global Object
                 - this keyword
                 - this === window
                 - variables memory get allocated
