@@ -1,5 +1,4 @@
 console.log("Learning Control Flow");
-
 /*
 if (true){
     console.log("The condition is true");   // Condition satisfies; so, else statement doesn't executes
