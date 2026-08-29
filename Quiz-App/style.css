@@ -246,6 +246,16 @@ header h2 {
     margin-top: auto;
 }
 
+.options.correct {
+    background-color: green;
+    color: white;
+}
+
+.options.wrong {
+    background-color: red;
+    color: white;
+}
+
 
 @media (max-width: 768px) {
 

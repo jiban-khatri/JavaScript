@@ -122,19 +122,28 @@ const quizData = [
 // DOM Elements
 
 const form = document.getElementById("my-form");
+const playerInput = document.getElementById("player-input-name");
 
 const userDiv = document.querySelector(".user");
 const userName = document.getElementById("user-name");
+
 const gameBox = document.querySelector(".game-box");
-const playerInput = document.getElementById("player-input-name");
+const outerDiv = document.querySelector(".outer");
 
+const timerElem = document.getElementById("timer-sec");
 
+let score = 0;
+let timeLeft = 90;
+
+let timer;
+let usedQuestions = new Set();
+
+// submit name and start
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   let playerName = playerInput.value;
 
-  form.reset();
   startGame(playerName);
 });
 
@@ -145,97 +154,161 @@ function startGame(playerName) {
 
   form.style.display = "none";
   gameBox.style.display = "flex";
-  
-  let randomIndex = Math.floor(Math.random() * quizData.length);
-  updateQuestion(randomIndex);
 
-  updateTime();
+  startTimer();
+  showQuestions();
 }
 
 // timer function
+function startTimer() {
+  timer = setInterval(() => {
+    timeLeft--;
+    timerElem.textContent = timeLeft;
 
-let initialTime = 90;
-const timerElem = document.getElementById("timer-sec");
-timerElem.textContent = initialTime;
-
-function updateTime() {
-  const timer = setInterval(() => {
-    initialTime -= 1;
-    timerElem.textContent = initialTime;
-
-    if (initialTime <= 0) {
+    if (timeLeft <= 0) {
       clearInterval(timer);
       displayScore();
-    };
+    }
   }, 1000);
-
-  
 }
-
-
-
-let questionSection, optionSection, submitButton;
 
 // update Questions function
 
-function updateQuestion(randomIndex) {
-  let currentQuestion = quizData[randomIndex];
+function showQuestions() {
+  // remove previous questions
+  const oldQuestion = document.querySelector(".question-section");
+  const oldOptions = document.querySelector(".options-section");
+  const oldButton = document.querySelector(".next-qns-btn");
 
-  // remove old one
-  questionSection?.remove();
-  optionSection?.remove();
-  submitButton?.remove();
+  oldQuestion?.remove();
+  oldOptions?.remove();
+  oldButton?.remove();
+
+  // get random question
+let randomIndex;
+  do {
+    randomIndex = Math.floor(Math.random() * quizData.length);
+  } while (usedQuestions.has(randomIndex));
+
+  usedQuestions.add(randomIndex);
+  const question = quizData[randomIndex];
 
   // question section
   questionSection = document.createElement("div");
   questionSection.classList.add("question-section");
 
-  let h2 = document.createElement("h2");
-  h2.textContent = currentQuestion.question;
+  let questionTitle = document.createElement("h2");
+  questionTitle.textContent = question.question;
 
-  questionSection.appendChild(h2);
+  questionSection.appendChild(questionTitle);
 
   // options section
   optionSection = document.createElement("div");
   optionSection.classList.add("options-section");
 
-  currentQuestion.options.forEach((ans) => {
-    let p = document.createElement("p");
-    p.classList.add("options");
-    p.textContent = ans;
 
-    optionSection.appendChild(p);
+  question.options.forEach((option, index) => {
+    const optionElem = document.createElement("p");
+    optionElem.classList.add("options");
+    optionElem.textContent = option;
+
+    optionElem.dataset.index = index;
+
+    optionElem.addEventListener("click", () => {
+      checkAnswer(index, question.correctIndex, optionSection);
+    });
+
+    optionSection.appendChild(optionElem);
   });
-
-
 
   // Next Button
-  submitButton = document.createElement("button");
-  submitButton.classList.add("next-qns-btn");
-  submitButton.textContent = "Next";
+  const nextButton = document.createElement("button");
+  nextButton.classList.add("next-qns-btn");
+  nextButton.textContent = "Next";
 
-  gameBox.append(questionSection, optionSection, submitButton);
+  nextButton.addEventListener("click", () => {
 
-  submitButton.addEventListener("click", () => {
-    let randomIndex = Math.floor(Math.random() * quizData.length);
-    updateQuestion(randomIndex);
+    if (quizData.length === usedQuestions.size) {
+      clearInterval(timer);
+      displayScore();
+      return;
+    }
+
+    showQuestions();
   });
+
+  gameBox.append(questionSection, optionSection, nextButton);
 }
 
-// 
-const outerDiv = document.querySelector(".outer");
+// Check Answer
+function checkAnswer(selectedIndex, correctIndex, optionSection) {
+  const options = optionSection.querySelectorAll(".options");
+
+  if (selectedIndex === correctIndex) {
+    score++;
+    options[selectedIndex].classList.add("correct");
+  } else {
+    options[selectedIndex].classList.add("wrong");
+    options[correctIndex].classList.add("correct");
+  }
+
+  options.forEach((option) => {
+    option.style.pointerEvents = "none";
+  });
+};
+
+//
 
 function displayScore() {
-  // form.style.display = "none";
-  // gameBox.style.display = "none";
+  clearInterval(timer);
 
   outerDiv.innerHTML = `
-  <div class="score-section" style="display: flex; flex-direction: column; justify-content:center; align-items:center">
-        <h2 style="color: rgb(144, 0, 255); font-size: 30px;">Congratulations ! You Scored 10 Points.</h2>
-        <button class="play-again">Play Again</button>
-    </div>
+  <div class="score-section" style="
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 50px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+">
+    <h2 style="
+        margin: 0;
+        font-family: 'Fjalla One', sans-serif;
+        font-size: 40px;
+        color: rgb(144, 0, 255);
+    ">
+        Congratulations! 🎉
+    </h2>
+
+    <p style="
+        margin: 0;
+        font-size: 20px;
+        color: #555;
+    ">
+        You scored ${score} out of ${quizData.length}
+    </p>
+
+    <button class="play-again" style="
+        padding: 12px 28px;
+        border: none;
+        border-radius: 8px;
+        background-color: rgb(144, 0, 255);
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    ">
+        Play Again
+    </button>
+</div>
   `;
+
+  const playAgainButton = document.querySelector(".play-again");
+  playAgainButton.addEventListener("click", restartGame);
 }
 
-
-// validateAnswer(randomIndex);
+function restartGame() {
+  location.reload();
+}
