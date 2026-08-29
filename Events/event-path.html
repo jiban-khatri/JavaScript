@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Bubbling, Capturing and Delegation</title>
+</head>
+
+<body>
+    <h2>Event Bubbling, Capturing and Delegation</h2>
+
+    <!--  -->
+    <div id="grandparent">
+        <div id="parent">
+            <button id="child">Click Me</button>
+        </div>
+    </div>
+
+    <hr>
+
+
+    <!--  -->
+
+    <ul id="lists">
+        <li>Item 1</li>
+        <li>Item 2</li>
+    </ul>
+
+    <hr>
+    <!--  -->
+
+    <div id="father" style="padding: 30px; background-color: #cfd8dc;">
+        Parent
+        <button id="son" style="margin: 10px;">
+            Click Me
+        </button>
+    </div>
+
+    <script src="./event-path.js"></script>
+</body>
+
+</html>
