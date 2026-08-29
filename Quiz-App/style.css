@@ -112,7 +112,8 @@ header h2 {
 }
 
 #my-form button,
-#next-qns-btn {
+.next-qns-btn,
+.play-again {
     width: 15rem;
     padding: 1.1rem;
 
@@ -131,7 +132,8 @@ header h2 {
 }
 
 #my-form button:hover,
-#next-qns-btn:hover {
+.next-qns-btn:hover,
+.play-again:hover {
     background-color: black;
     transform: translateY(-2px);
 }
@@ -238,7 +240,7 @@ header h2 {
     transform: translateY(-2px);
 }
 
-#next-qns-btn {
+.next-qns-btn {
     align-self: center;
 
     margin-top: auto;
