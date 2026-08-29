@@ -1,3 +1,5 @@
+console.log("Project : Quiz Game");
+
 const quizData = [
   {
     id: 1,
