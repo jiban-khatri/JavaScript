@@ -178,7 +178,3 @@ promiseFinally
 });
 
 
-
- // Rule 5 - Calling the .then() handler method multiple times on a single promise is NOT chaining.
-
- 
